@@ -1,0 +1,6 @@
+{
+  "name": "Employee Performance Predictor",
+  "description": "Predicts employee performance bands and provides coaching recommendations using AI-driven analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
