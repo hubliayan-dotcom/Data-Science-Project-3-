@@ -9,6 +9,23 @@ This project is a comprehensive **Personnel Analytics** solution that uses a rea
 
 ---
 
+## 📸 Screenshots
+
+### Dashboard Overview
+![Dashboard](dashboard_overview.png)
+
+### Employee Prediction Interface
+![Prediction UI](employee_prediction_interface.png)
+
+### Confusion Matrix
+![Confusion Matrix](confusion_matrix_results.png)
+
+### Feature Importance
+![Feature Importance](feature_importance_trends.png)
+
+### Department Performance
+![Department Performance](department_performance_distribution.png)
+
 ## 1. Project Overview & Business Value
 *   **Real ML Engine:** Unlike simple AI wrappers, this project implements a trained **Random Forest** model with an 86% test accuracy.
 *   **Bias Mitigation:** Uses statistical drivers to explain outcomes, reducing human subjectivity in appraisals.
