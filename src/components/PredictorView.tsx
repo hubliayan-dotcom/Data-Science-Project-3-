@@ -43,46 +43,45 @@ export default function PredictorView() {
     setResult(null);
 
     try {
-      const response = await ai.models.generateContent({
+      // 1. Get Real ML prediction from local endpoint
+      const mlRes = await fetch("/api/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData)
+      });
+
+      if (!mlRes.ok) throw new Error("ML Prediction failed");
+      const mlData = await mlRes.json();
+
+      // 2. Get AI Recommendations based on ML result
+      const aiResponse = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
-        contents: `Evaluate the following employee data: ${JSON.stringify(formData)}.
-        Predict their performance band (High, Medium, Low) for the next appraisal cycle.
-        Provide probability scores for each band, top 3 drivers for this prediction, and 3-4 specific coaching recommendations in markdown format.`,
+        contents: `The ML model predicted this employee is in the "${mlData.predictedBand}" band with these probabilities: ${JSON.stringify(mlData.probabilities)}. 
+        Employee Metrics: ${JSON.stringify(formData)}.
+        As an HR Consultant, provide the top 3 statistical drivers for this performance classification and 3 specific, high-impact coaching recommendations.`,
         config: {
-          systemInstruction: "You are an HR Data Scientist specializing in Employee Performance Prediction. Evaluate the provided employee metrics and output a structured prediction.",
+          systemInstruction: "You are an HR Strategist. Analyze ML results and provide human-centric coaching strategies.",
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
             properties: {
-              predictedBand: { type: Type.STRING, description: "One of High, Medium, Low" },
-              probabilities: {
-                type: Type.OBJECT,
-                properties: {
-                  High: { type: Type.NUMBER },
-                  Medium: { type: Type.NUMBER },
-                  Low: { type: Type.NUMBER }
-                }
-              },
-              topDrivers: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING }
-              },
-              recommendations: {
-                type: Type.ARRAY,
-                items: { type: Type.STRING },
-                description: "Actionable coaching recommendations"
-              }
+              topDrivers: { type: Type.ARRAY, items: { type: Type.STRING } },
+              recommendations: { type: Type.ARRAY, items: { type: Type.STRING } }
             },
-            required: ["predictedBand", "probabilities", "topDrivers", "recommendations"]
+            required: ["topDrivers", "recommendations"]
           }
         }
       });
 
-      const data = JSON.parse(response.text);
-      setResult(data);
+      const aiData = JSON.parse(aiResponse.text);
+
+      setResult({
+        ...mlData,
+        ...aiData
+      });
     } catch (err) {
       console.error(err);
-      setError("Failed to generate prediction. Please ensure the Gemini API key is configured correctly.");
+      setError("Failed to generate prediction. Ensure the backend server and Gemini API are ready.");
     } finally {
       setIsLoading(false);
     }
