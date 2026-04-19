@@ -5,6 +5,12 @@
 ![Python Workflow](https://img.shields.io/badge/Workflow-Python%20%2B%20Pandas-yellow?logo=python)
 ![Real ML](https://img.shields.io/badge/In--App%20ML-Random%20Forest%20(JS)-green)
 
+### 🔗 [Live Demo - Interactive HR Dashboard](https://ais-dev-cdga3rpz5x4mjohj45mdls-50948685477.asia-southeast1.run.app)
+
+This project is a comprehensive **Personnel Analytics** solution that uses a real **Random Forest Classifier** to predict employee performance bands (High, Medium, Low) based on historical behavioral and productivity data.
+
+---
+
 This project is a comprehensive **Personnel Analytics** solution that uses a real **Random Forest Classifier** to predict employee performance bands (High, Medium, Low) based on historical behavioral and productivity data.
 
 ---
